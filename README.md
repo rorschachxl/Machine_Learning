@@ -1,4 +1,4 @@
-# 📧 Clasificación de Correos con Regresión Logística
+#  Clasificación de Correos con Regresión Logística
 
 Este proyecto implementa un modelo de **Machine Learning** para clasificar correos electrónicos en **spam/no spam (o categorías similares)** utilizando **Regresión Logística**.  
 
@@ -74,7 +74,7 @@ En el ejemplo, el cálculo de accuracy fue hecho sumando los verdaderos positivo
 ---
 
 ##  Requisitos
-- Python 3.x  
+- Python   
 - Pandas  
 - Numpy  
 - Scikit-learn  
