@@ -1,48 +1,89 @@
-import pandas as pd
-import numpy as np
+# 📧 Clasificación de Correos con Regresión Logística
 
-# Impotar el dataset
-data=pd.read_csv('correos_dataset.csv')
+Este proyecto implementa un modelo de **Machine Learning** para clasificar correos electrónicos en **spam/no spam (o categorías similares)** utilizando **Regresión Logística**.  
 
-# Seleccion de features y etiquetas
-x=data.iloc[:,6].values #contenido
-y=data.iloc[:,9].values #etiqueta
+El flujo del proyecto incluye:  
+1. Carga del dataset.  
+2. Selección de variables (contenido del correo y su etiqueta).  
+3. División en entrenamiento y prueba.  
+4. Vectorización de texto con **TF-IDF**.  
+5. Escalado de datos.  
+6. Entrenamiento del modelo de **Regresión Logística**.  
+7. Predicciones sobre los datos de prueba.  
+8. Evaluación mediante **matriz de confusión** y porcentaje de acierto.  
 
-# Separacion de train y test mediante sklearn
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(x,y,test_size=0.3, random_state=0)
+---
 
-# Vectorizacion del texto mediante sklearn
-from sklearn.feature_extraction.text import TfidfVectorizer
-vectorizer = TfidfVectorizer()
-X_train = vectorizer.fit_transform(X_train)
-X_test = vectorizer.transform(X_test)
+##  1. Carga del dataset
+Se importa el dataset `correos_dataset.csv` usando **Pandas**.  
+De este dataset se seleccionan:  
+- **Columna 6** → Contenido del correo (texto).  
+- **Columna 9** → Etiqueta (clase a predecir, por ejemplo *spam* o *no spam*).  
 
-# Escalado de los datos
-from sklearn.preprocessing import StandardScaler
-standar_x = StandardScaler(with_mean=False)
-X_train=standar_x.fit_transform(X_train)
-X_test=standar_x.fit_transform(X_test)
+---
 
-# Entrenamiento del modelo
-from sklearn.linear_model import LogisticRegression
-reg=LogisticRegression(random_state=0)
-reg.fit(X_train,y_train)
+##  2. División de los datos
+Se utiliza `train_test_split` de **Scikit-learn** para dividir los datos en:  
+- **70% entrenamiento**  
+- **30% prueba**  
 
-# Prediccion
-pred=reg.predict(X_test)
+Esto permite entrenar el modelo en un subconjunto y luego evaluarlo en datos que nunca ha visto.
 
-print("Predicciones del modelo:")
-print(pred)
-print("\n")
-print("Etiquetas reales:")
-print(y_test)
+---
 
-# Evaluacion del modelo
-# Matriz de confusion
-from sklearn.metrics import confusion_matrix
-cm=confusion_matrix(y_test,pred)
-print("Matriz de confusion:")
-print(cm)
-print("Porcentaje de acierto:")
-print((140+137)/len(y_test))
+##  3. Vectorización de texto
+El contenido de los correos (texto) se transforma en vectores numéricos usando **TF-IDF (Term Frequency – Inverse Document Frequency)**.  
+Esto asigna un peso a cada palabra según su importancia en el documento y en el corpus.
+
+---
+
+##  4. Escalado de datos
+Se aplica un **StandardScaler** (con `with_mean=False` ya que los datos son dispersos).  
+El escalado ayuda a normalizar los valores numéricos para que el modelo entrene de manera más estable.
+
+---
+
+##  5. Entrenamiento del modelo
+Se entrena un modelo de **Regresión Logística**, que es un algoritmo supervisado muy utilizado en clasificación binaria.  
+Este modelo aprende a distinguir entre las etiquetas (ejemplo: *spam* vs *no spam*) en función de las palabras presentes en el correo.
+
+---
+
+##  6. Predicción
+El modelo predice las etiquetas de los datos de prueba (X_test).  
+Se muestran:  
+- **Predicciones del modelo** (clases asignadas).  
+- **Etiquetas reales** (valor verdadero del dataset).
+
+---
+
+##  7. Evaluación del modelo
+La calidad del modelo se mide con:  
+- **Matriz de confusión**: muestra cuántos correos fueron clasificados correctamente y cuántos se confundieron.  
+- **Porcentaje de acierto (accuracy)**: mide el rendimiento global del modelo.  
+
+En el ejemplo, el cálculo de accuracy fue hecho sumando los verdaderos positivos y verdaderos negativos y dividiéndolos entre el total de muestras.
+
+---
+
+## Conclusiones
+- Se logró entrenar un modelo de clasificación de correos basado en texto usando **Regresión Logística**.  
+- El uso de **TF-IDF** permitió convertir el texto en características numéricas relevantes.  
+- La evaluación con matriz de confusión y accuracy mostró el rendimiento del modelo.  
+
+---
+
+## 🚀 Requisitos
+- Python  
+- Pandas  
+- Numpy  
+- Scikit-learn  
+
+---
+
+## Ejecución
+1. Clonar el repositorio o descargar el script.  
+2. Asegurarse de tener el archivo `correos_dataset.csv` en el mismo directorio.  
+3. Instalar dependencias:  
+   ```bash
+   pip install pandas numpy scikit-learn
