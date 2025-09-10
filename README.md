@@ -1,4 +1,4 @@
-#📧 Clasificación de Correos con Regresión Logística
+# Clasificación de Correos con Regresión Logística
 
 Este script entrena un modelo de **regresión logística** para clasificar correos electrónicos usando TF-IDF y Scikit-learn.
 
